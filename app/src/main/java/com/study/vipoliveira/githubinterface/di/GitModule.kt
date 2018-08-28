@@ -5,10 +5,10 @@ import com.study.vipoliveira.githubinterface.data.GitListDataSourceFactory
 import com.study.vipoliveira.githubinterface.service.GitHubService
 import com.study.vipoliveira.githubinterface.ui.gitlist.TestViewModelFactory
 import com.study.vipoliveira.githubinterface.ui.pullrequest.PullRequestViewModelFactory
-import com.study.vipoliveira.githubinterface.usecases.GitHubListUseCase
-import com.study.vipoliveira.githubinterface.usecases.IGitHubListUseCase
-import com.study.vipoliveira.githubinterface.usecases.IPullRequestRepoListUseCase
-import com.study.vipoliveira.githubinterface.usecases.PullRequestRepoListUseCase
+import com.study.vipoliveira.githubinterface.repositories.GitHubListRepository
+import com.study.vipoliveira.githubinterface.repositories.IGitHubListRepository
+import com.study.vipoliveira.githubinterface.repositories.IPullRequestRepoListRepository
+import com.study.vipoliveira.githubinterface.repositories.PullRequestRepoListRepository
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
@@ -22,8 +22,8 @@ class GitModule {
     }
 
     @Provides
-    fun provideGitHubListUseCase(gitHubService: GitHubService): IGitHubListUseCase {
-        return GitHubListUseCase(gitHubService)
+    fun provideGitHubListRepository(gitHubService: GitHubService): IGitHubListRepository {
+        return GitHubListRepository(gitHubService)
     }
 
     @Provides
@@ -37,19 +37,19 @@ class GitModule {
     }
 
     @Provides
-    fun provideGitListDataSource(gitHubListUseCase: IGitHubListUseCase,
+    fun provideGitListDataSource(gitHubListRepository: IGitHubListRepository,
                                  disposable: CompositeDisposable): GitListDataSource {
-        return GitListDataSource(gitHubListUseCase, disposable)
+        return GitListDataSource(gitHubListRepository, disposable)
     }
 
     @Provides
-    fun providePullRequestRepoListUseCase(gitHubService: GitHubService): IPullRequestRepoListUseCase {
-        return PullRequestRepoListUseCase(gitHubService)
+    fun providePullRequestRepoListRepository(gitHubService: GitHubService): IPullRequestRepoListRepository {
+        return PullRequestRepoListRepository(gitHubService)
     }
 
     @Provides
-    fun providePullRequestViewModelFactory(pullRequestRepoListUseCase: IPullRequestRepoListUseCase,
+    fun providePullRequestViewModelFactory(pullRequestRepoListRepository: IPullRequestRepoListRepository,
                                            disposable: CompositeDisposable): PullRequestViewModelFactory {
-        return PullRequestViewModelFactory(pullRequestRepoListUseCase, disposable)
+        return PullRequestViewModelFactory(pullRequestRepoListRepository, disposable)
     }
 }

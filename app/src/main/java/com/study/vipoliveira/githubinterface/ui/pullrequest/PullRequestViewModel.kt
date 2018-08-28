@@ -2,13 +2,13 @@ package com.study.vipoliveira.githubinterface.ui.pullrequest
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.study.vipoliveira.githubinterface.usecases.IPullRequestRepoListUseCase
+import com.study.vipoliveira.githubinterface.repositories.IPullRequestRepoListRepository
 import com.study.vipoliveira.githubinterface.viewentity.PullRequestResponse
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class PullRequestViewModel(private val pullRequestRepoListUseCase: IPullRequestRepoListUseCase,
+class PullRequestViewModel(private val pullRequestRepoListRepository: IPullRequestRepoListRepository,
                            private val disposable: CompositeDisposable) : ViewModel(){
     private val pullRequestResponse = MutableLiveData<PullRequestResponse>()
 
@@ -17,7 +17,7 @@ class PullRequestViewModel(private val pullRequestRepoListUseCase: IPullRequestR
     }
     fun getPullRequests(creator: String, project: String){
         disposable.add(
-                pullRequestRepoListUseCase
+                pullRequestRepoListRepository
                         .getPullRequestList(creator, project)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())

@@ -8,14 +8,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import android.arch.lifecycle.LiveData
 import com.study.vipoliveira.githubinterface.model.GitItem
-import com.study.vipoliveira.githubinterface.usecases.IGitHubListUseCase
+import com.study.vipoliveira.githubinterface.repositories.IGitHubListRepository
 import com.study.vipoliveira.githubinterface.viewentity.GitHubResponse
 import io.reactivex.Completable
 import io.reactivex.functions.Action
 
 
 @Singleton
-class GitListDataSource(private val gitHubListUseCase: IGitHubListUseCase,
+class GitListDataSource(private val gitHubListRepository: IGitHubListRepository,
                         private val disposable: CompositeDisposable): ItemKeyedDataSource<Int, GitItem>() {
 
     private var pageNumber = 1
@@ -29,7 +29,7 @@ class GitListDataSource(private val gitHubListUseCase: IGitHubListUseCase,
         initialLoadStateLiveData.postValue(GitHubResponse.loading())
 
 
-        disposable.add(gitHubListUseCase
+        disposable.add(gitHubListRepository
                 .getGitList(pageNumber)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -42,7 +42,7 @@ class GitListDataSource(private val gitHubListUseCase: IGitHubListUseCase,
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<GitItem>) {
         paginatedNetworkStateLiveData.postValue(GitHubResponse.loading())
-        disposable.add(gitHubListUseCase
+        disposable.add(gitHubListRepository
                 .getGitList(params.key)
                 .subscribe({ items ->
                     setRetry(null)
