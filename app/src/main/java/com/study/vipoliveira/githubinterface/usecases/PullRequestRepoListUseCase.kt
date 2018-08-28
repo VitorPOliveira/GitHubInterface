@@ -1,12 +1,12 @@
 package com.study.vipoliveira.githubinterface.usecases
 
 import com.study.vipoliveira.githubinterface.model.PullRequest
-import com.study.vipoliveira.githubinterface.repositories.GitHubRepository
+import com.study.vipoliveira.githubinterface.service.GitHubService
 import io.reactivex.Single
 
 class PullRequestRepoListUseCase
-constructor(private val gitHubRepository: GitHubRepository): IPullRequestRepoListUseCase {
+constructor(private val gitHubService: GitHubService): IPullRequestRepoListUseCase {
     override fun getPullRequestList(creator: String, project: String): Single<MutableList<PullRequest>> {
-        return gitHubRepository.getPullRequestRepoList(creator,project)
+        return gitHubService.getPullRequestRepoList(creator,project)
     }
 }

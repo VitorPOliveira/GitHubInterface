@@ -2,7 +2,7 @@ package com.study.vipoliveira.githubinterface.di
 
 import com.study.vipoliveira.githubinterface.data.GitListDataSource
 import com.study.vipoliveira.githubinterface.data.GitListDataSourceFactory
-import com.study.vipoliveira.githubinterface.repositories.GitHubRepository
+import com.study.vipoliveira.githubinterface.service.GitHubService
 import com.study.vipoliveira.githubinterface.ui.gitlist.TestViewModelFactory
 import com.study.vipoliveira.githubinterface.ui.pullrequest.PullRequestViewModelFactory
 import com.study.vipoliveira.githubinterface.usecases.GitHubListUseCase
@@ -17,13 +17,13 @@ import retrofit2.Retrofit
 @Module
 class GitModule {
     @Provides
-    fun provideGitHubRepository(retrofit: Retrofit): GitHubRepository {
-        return retrofit.create<GitHubRepository>(GitHubRepository::class.java)
+    fun provideGitHubRepository(retrofit: Retrofit): GitHubService {
+        return retrofit.create<GitHubService>(GitHubService::class.java)
     }
 
     @Provides
-    fun provideGitHubListUseCase(gitHubRepository: GitHubRepository): IGitHubListUseCase {
-        return GitHubListUseCase(gitHubRepository)
+    fun provideGitHubListUseCase(gitHubService: GitHubService): IGitHubListUseCase {
+        return GitHubListUseCase(gitHubService)
     }
 
     @Provides
@@ -43,8 +43,8 @@ class GitModule {
     }
 
     @Provides
-    fun providePullRequestRepoListUseCase(gitHubRepository: GitHubRepository): IPullRequestRepoListUseCase {
-        return PullRequestRepoListUseCase(gitHubRepository)
+    fun providePullRequestRepoListUseCase(gitHubService: GitHubService): IPullRequestRepoListUseCase {
+        return PullRequestRepoListUseCase(gitHubService)
     }
 
     @Provides
