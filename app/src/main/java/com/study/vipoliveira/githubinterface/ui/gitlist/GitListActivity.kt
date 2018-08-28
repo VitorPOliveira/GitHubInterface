@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.study.vipoliveira.githubinterface.R
 import com.study.vipoliveira.githubinterface.model.GitItem
+import com.study.vipoliveira.githubinterface.ui.pullrequest.PullRequestListActivity
 import com.study.vipoliveira.githubinterface.viewentity.GitHubResponse
 import com.study.vipoliveira.githubinterface.viewentity.Status
 import dagger.android.AndroidInjection
@@ -19,10 +20,11 @@ import javax.inject.Inject
 
 class GitListActivity : AppCompatActivity() , GitItemSelect {
     override fun onClick(item: GitItem) {
-//        val intent = Intent(this, PullRequestListActivity::class.java)
-//        intent.putExtra(PullRequestListActivity.CREATOR_NAME, item.owner.login)
-//        intent.putExtra(PullRequestListActivity.PROJECT_NAME, item.name)
-//        startActivity(intent)
+        val intent = Intent(this, PullRequestListActivity::class.java)
+        intent.putExtra(PullRequestListActivity.CREATOR_NAME, item.owner.login)
+        intent.putExtra(PullRequestListActivity.PROJECT_NAME, item.name)
+        intent.putExtra(PullRequestListActivity.OPEN_ISSUES, item.openIssues)
+        startActivity(intent)
     }
 
     var viewModelFactory: TestViewModelFactory? = null

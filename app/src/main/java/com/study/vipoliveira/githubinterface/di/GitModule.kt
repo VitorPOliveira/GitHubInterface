@@ -4,8 +4,11 @@ import com.study.vipoliveira.githubinterface.data.GitListDataSource
 import com.study.vipoliveira.githubinterface.data.GitListDataSourceFactory
 import com.study.vipoliveira.githubinterface.repositories.GitHubRepository
 import com.study.vipoliveira.githubinterface.ui.gitlist.TestViewModelFactory
+import com.study.vipoliveira.githubinterface.ui.pullrequest.PullRequestViewModelFactory
 import com.study.vipoliveira.githubinterface.usecases.GitHubListUseCase
 import com.study.vipoliveira.githubinterface.usecases.IGitHubListUseCase
+import com.study.vipoliveira.githubinterface.usecases.IPullRequestRepoListUseCase
+import com.study.vipoliveira.githubinterface.usecases.PullRequestRepoListUseCase
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
@@ -37,5 +40,16 @@ class GitModule {
     fun provideGitListDataSource(gitHubListUseCase: IGitHubListUseCase,
                                  disposable: CompositeDisposable): GitListDataSource {
         return GitListDataSource(gitHubListUseCase, disposable)
+    }
+
+    @Provides
+    fun providePullRequestRepoListUseCase(gitHubRepository: GitHubRepository): IPullRequestRepoListUseCase {
+        return PullRequestRepoListUseCase(gitHubRepository)
+    }
+
+    @Provides
+    fun providePullRequestViewModelFactory(pullRequestRepoListUseCase: IPullRequestRepoListUseCase,
+                                           disposable: CompositeDisposable): PullRequestViewModelFactory {
+        return PullRequestViewModelFactory(pullRequestRepoListUseCase, disposable)
     }
 }
