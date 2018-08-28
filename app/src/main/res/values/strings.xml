@@ -3,4 +3,5 @@
     <string name="open_issues_number">%1$d open issues</string>
     <string name="no_pull_request">No PR to show</string>
     <string name="try_again_button">Try Again</string>
+    <string name="created_at">Created at: %1$s</string>
 </resources>

@@ -3,7 +3,7 @@ package com.study.vipoliveira.githubinterface.di
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.study.vipoliveira.githubinterface.App
-import com.study.vipoliveira.githubinterface.model.BASE_URL
+import com.study.vipoliveira.githubinterface.utils.BASE_URL
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache

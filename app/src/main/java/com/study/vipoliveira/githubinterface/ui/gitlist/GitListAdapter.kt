@@ -9,7 +9,7 @@ import com.study.vipoliveira.githubinterface.model.GitItem
 import com.study.vipoliveira.githubinterface.viewentity.GitHubResponse
 import com.study.vipoliveira.githubinterface.viewentity.Status
 
-class NewGitListAdapter(private val itemSelect: GitItemSelect, private val retryCallback: () -> Unit) : PagedListAdapter<GitItem, RecyclerView.ViewHolder>(ItemDiffCallback) {
+class GitListAdapter(private val itemSelect: GitItemSelect, private val retryCallback: () -> Unit) : PagedListAdapter<GitItem, RecyclerView.ViewHolder>(ItemDiffCallback) {
     private var gitHubResponse: GitHubResponse? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType){

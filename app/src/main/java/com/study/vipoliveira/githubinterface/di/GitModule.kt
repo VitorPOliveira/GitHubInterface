@@ -3,7 +3,7 @@ package com.study.vipoliveira.githubinterface.di
 import com.study.vipoliveira.githubinterface.data.GitListDataSource
 import com.study.vipoliveira.githubinterface.data.GitListDataSourceFactory
 import com.study.vipoliveira.githubinterface.service.GitHubService
-import com.study.vipoliveira.githubinterface.ui.gitlist.TestViewModelFactory
+import com.study.vipoliveira.githubinterface.ui.gitlist.GitListViewModelFactory
 import com.study.vipoliveira.githubinterface.ui.pullrequest.PullRequestViewModelFactory
 import com.study.vipoliveira.githubinterface.repositories.GitHubListRepository
 import com.study.vipoliveira.githubinterface.repositories.IGitHubListRepository
@@ -27,8 +27,8 @@ class GitModule {
     }
 
     @Provides
-    fun provideTestViewModelFactory(dataSourceFactory: GitListDataSourceFactory): TestViewModelFactory {
-        return TestViewModelFactory(dataSourceFactory)
+    fun provideGitListViewModelFactory(dataSourceFactory: GitListDataSourceFactory): GitListViewModelFactory {
+        return GitListViewModelFactory(dataSourceFactory)
     }
 
     @Provides

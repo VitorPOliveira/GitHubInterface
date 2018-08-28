@@ -30,11 +30,11 @@ class GitListActivity : AppCompatActivity() , GitItemSelect {
         startActivity(intent)
     }
 
-    var viewModelFactory: TestViewModelFactory? = null
+    var viewModelFactory: GitListViewModelFactory? = null
         @Inject set
 
     private var viewModel: GitListViewModel? = null
-    private lateinit var gitListAdapter: NewGitListAdapter
+    private lateinit var gitListAdapter: GitListAdapter
 
 
 
@@ -51,7 +51,7 @@ class GitListActivity : AppCompatActivity() , GitItemSelect {
 
     private fun initAdapter() {
         val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        gitListAdapter = NewGitListAdapter(this) {
+        gitListAdapter = GitListAdapter(this) {
             viewModel!!.retry()
         }
         val dividerItemDecoration = DividerItemDecoration(git_user_recyclerview.context,
