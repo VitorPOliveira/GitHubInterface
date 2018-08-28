@@ -74,7 +74,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/guide"
         app:layout_constraintTop_toBottomOf="@+id/project_name"
-        tools:text="Descricao com duas linhas grandes pra testar a app show de bola"
+        tools:text="Lorem ipsum molestie semper feugiat magna himenaeos dictumst tempor nisisf"
         />
 
     <ImageView

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.study.vipoliveira.githubinterface.R
@@ -41,27 +42,31 @@ class PullRequestListActivity : AppCompatActivity() {
 
     private var creator: String? = null
     private var project: String? = null
+    private var openIssues: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pull_request)
-        setSupportActionBar(findViewById(R.id.toolbar))
+        setSupportActionBar(findViewById(R.id.toolbar_pr))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         creator = intent.getStringExtra(CREATOR_NAME)
         project = intent.getStringExtra(PROJECT_NAME)
+        openIssues = intent.getIntExtra(OPEN_ISSUES, 0)
         title = creator
-        toolbar.subtitle = project
-
+        if(openIssues != 0) toolbar_pr.subtitle = getString(R.string.open_issues_number, openIssues)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(PullRequestViewModel::class.java)
 
         viewModel!!.pullRequestResponse().observe(this,
                 Observer { pullRequestResponse -> processPullRequestResponse(pullRequestResponse!!) })
 
-        val llm = LinearLayoutManager(this)
-        pull_request_recyclerview.layoutManager = llm
+        val linearLayoutManager = LinearLayoutManager(this)
+        pull_request_recyclerview.layoutManager = linearLayoutManager
         pull_request_recyclerview.adapter = adapter
+        val dividerItemDecoration = DividerItemDecoration(pull_request_recyclerview.context,
+                linearLayoutManager.orientation)
+        pull_request_recyclerview.addItemDecoration(dividerItemDecoration)
         viewModel!!.getPullRequests(creator!!, project!!)
     }
 
@@ -75,9 +80,14 @@ class PullRequestListActivity : AppCompatActivity() {
         loading_progress_bar.visibility = if (pullRequestResponse?.status == Status.LOADING) View.VISIBLE else View.GONE
 
         if(pullRequestResponse?.status == Status.SUCCESS){
-            pullRequestList.clear()
-            pullRequestList.addAll(pullRequestResponse.data!!)
-            adapter.notifyDataSetChanged()
+            if(pullRequestResponse.data!!.isEmpty()){
+                error_msg_txt.visibility = View.VISIBLE
+                error_msg_txt.text = getString(R.string.no_pull_request)
+            } else {
+                pullRequestList.clear()
+                pullRequestList.addAll(pullRequestResponse.data!!)
+                adapter.notifyDataSetChanged()
+            }
         }
         retry_button.setOnClickListener { viewModel!!.getPullRequests(creator!!, project!!)}
     }

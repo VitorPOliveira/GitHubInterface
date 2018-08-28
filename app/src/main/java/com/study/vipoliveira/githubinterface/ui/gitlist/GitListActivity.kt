@@ -17,6 +17,9 @@ import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_git_list.*
 import kotlinx.android.synthetic.main.layout_github_network_state.*
 import javax.inject.Inject
+import android.support.v7.widget.DividerItemDecoration
+
+
 
 class GitListActivity : AppCompatActivity() , GitItemSelect {
     override fun onClick(item: GitItem) {
@@ -51,6 +54,9 @@ class GitListActivity : AppCompatActivity() , GitItemSelect {
         gitListAdapter = NewGitListAdapter(this) {
             viewModel!!.retry()
         }
+        val dividerItemDecoration = DividerItemDecoration(git_user_recyclerview.context,
+                linearLayoutManager.orientation)
+        git_user_recyclerview.addItemDecoration(dividerItemDecoration)
         git_user_recyclerview.layoutManager = linearLayoutManager
         git_user_recyclerview.adapter = gitListAdapter
         viewModel!!.getItems()!!.observe(this, Observer<PagedList<GitItem>> { gitListAdapter.submitList(it) })
